@@ -7,8 +7,17 @@ struct DeliveryInvoiceGenerator {
     ) -> [DeliveryInvoice] {
         var invoices: [DeliveryInvoice] = []
         for package in packages {
-            let totalCost = deliveryCostCalculator.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
-            invoices.append(DeliveryInvoice(packageId: package.id, discount: 0, totalCost: totalCost))
+            let (totalCost, discount) = deliveryCostCalculator.calculateTotalEstimatedCost(
+                baseDeliveryCost: baseDeliveryCost,
+                package: package
+            )
+            invoices.append(
+                DeliveryInvoice(
+                    packageId: package.id,
+                    discount: discount,
+                    totalCost: totalCost
+                )
+            )
         }
         return invoices
     }

@@ -26,15 +26,24 @@ struct DeliveryCostCalculator {
         ),
     ]
 
-    func calculateTotalEstimatedCost(baseDeliveryCost: Double, package: Package) -> Double {
-        let deliveryCostWithoutDiscount = calculateDeliveryCostWithoutDiscount(baseDeliveryCost: baseDeliveryCost, package: package)
+    func calculateTotalEstimatedCost(
+        baseDeliveryCost: Double,
+        package: Package
+    ) -> (totalCost: Double, discount: Double) {
+        let deliveryCostWithoutDiscount = calculateDeliveryCostWithoutDiscount(
+            baseDeliveryCost: baseDeliveryCost,
+            package: package
+        )
         let discountPercentage = discountPercentageForPackage(package: package)
         let discountToApply = deliveryCostWithoutDiscount * (discountPercentage/100)
         let totalEstimatedPrice = deliveryCostWithoutDiscount - discountToApply
-        return totalEstimatedPrice
+        return (totalEstimatedPrice, discountToApply)
     }
     
-    private func calculateDeliveryCostWithoutDiscount(baseDeliveryCost: Double, package: Package) -> Double {
+    private func calculateDeliveryCostWithoutDiscount(
+        baseDeliveryCost: Double,
+        package: Package
+    ) -> Double {
         baseDeliveryCost + (package.weightInKg * 10) + (package.distanceToDestination * 5)
     }
 
