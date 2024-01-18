@@ -20,7 +20,9 @@ for e.g
 | OFR001 (10% Discount) | < 200         | 70-200      |
 | OFR002 (7% Discount)  | 50-150        | 100-250     |
 | OFR003 (5% Discount)  | 50-250        | 10-150      |
- 
+
+Note: We should have an ability to add more offer codes.
+
 #### Expected input format:
 
 base_delivery_cost no_of_packges
