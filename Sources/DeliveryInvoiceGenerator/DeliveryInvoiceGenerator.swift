@@ -1,18 +1,3 @@
-import Foundation
-
-struct Package {
-    let id: String
-    let weightInKg: Double
-    let distanceToDestination: Double
-    let offerCode: String
-}
-
-struct DeliveryInvoice: Equatable {
-    let packageId: String
-    let discount: Double
-    let totalCost: Double
-}
-
 struct DeliveryInvoiceGenerator {
     let deliveryCostCalculator: DeliveryCostCalculator
 

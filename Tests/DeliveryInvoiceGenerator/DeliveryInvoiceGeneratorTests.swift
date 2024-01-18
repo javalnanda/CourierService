@@ -18,7 +18,6 @@ final class DeliveryInvoiceGeneratorTests: XCTestCase {
             DeliveryInvoice(packageId: "PKG1", discount: 0, totalCost: 175),
             DeliveryInvoice(packageId: "PKG2", discount: 0, totalCost: 275),
         ]
-
         XCTAssertEqual(generatedInvoices, expectedInvoices)
     }
 }
