@@ -1,4 +1,5 @@
 import SwiftCLI
+import Table
 
 struct DeliveryCostFlow {
     let invoiceGenerator = DeliveryInvoiceGeneratorFactory().build()
@@ -23,8 +24,21 @@ struct DeliveryCostFlow {
             packages.append(package)
         }
 
-        let generatedInvoices = invoiceGenerator.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
-        print("Invoices::")
-        print(generatedInvoices)
+        let invoices = invoiceGenerator.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
+        displayOutput(invoices: invoices)
+    }
+
+    private func displayOutput(invoices: [DeliveryInvoice]) {
+        var tabularData = invoices.map { deliveryInvoice in
+            [
+                "\(deliveryInvoice.packageId)",
+                "\(deliveryInvoice.discount)",
+                "\(deliveryInvoice.totalCost)"
+            ]
+        }
+        let headerData = ["PackageId", "Discount", "Total Cost"]
+        tabularData.insert(headerData, at: 0)
+        let table = try? Table(data: tabularData).table()
+        print(table ?? invoices)
     }
 }

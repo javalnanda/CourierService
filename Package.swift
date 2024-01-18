@@ -7,6 +7,7 @@ let package = Package(
     name: "CourierService",
     dependencies: [
         .package(url: "https://github.com/jakeheis/SwiftCLI", exact: "6.0.3"),
+        .package(url: "https://github.com/JanGorman/Table", exact: "1.1.1")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -15,6 +16,7 @@ let package = Package(
             name: "CourierService",
             dependencies: [
                 .product(name: "SwiftCLI", package: "SwiftCLI"),
+                .product(name: "Table", package: "Table"),
             ],
             path: "Sources"
         ),
