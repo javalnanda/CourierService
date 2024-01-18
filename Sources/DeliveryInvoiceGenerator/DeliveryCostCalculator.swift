@@ -1,19 +1,3 @@
-struct Offer {
-    let code: String
-    let discountInPercentage: Double
-    let criteria: Criteria
-
-    struct Criteria {
-        let distance: Range
-        let weight: Range
-    }
-
-    struct Range {
-        let min: Double
-        let max: Double
-    }
-}
-
 struct DeliveryCostCalculator {
     private let offers: [Offer] = [
         Offer(
@@ -43,11 +27,15 @@ struct DeliveryCostCalculator {
     ]
 
     func calculateTotalEstimatedCost(baseDeliveryCost: Double, package: Package) -> Double {
-        let deliveryCostWithoutDiscount = baseDeliveryCost + (package.weightInKg * 10) + (package.distanceToDestination * 5)
+        let deliveryCostWithoutDiscount = calculateDeliveryCostWithoutDiscount(baseDeliveryCost: baseDeliveryCost, package: package)
         let discountPercentage = discountPercentageForPackage(package: package)
         let discountToApply = deliveryCostWithoutDiscount * (discountPercentage/100)
         let totalEstimatedPrice = deliveryCostWithoutDiscount - discountToApply
         return totalEstimatedPrice
+    }
+    
+    private func calculateDeliveryCostWithoutDiscount(baseDeliveryCost: Double, package: Package) -> Double {
+        baseDeliveryCost + (package.weightInKg * 10) + (package.distanceToDestination * 5)
     }
 
     private func discountPercentageForPackage(package: Package) -> Double {
@@ -55,12 +43,16 @@ struct DeliveryCostCalculator {
             return 0.0
         }
 
-        if package.distanceToDestination >= validOffer.criteria.distance.min && 
-            package.distanceToDestination <= validOffer.criteria.distance.max &&
-            package.weightInKg >= validOffer.criteria.weight.min &&
-            package.weightInKg <= validOffer.criteria.weight.max {
+        if packageMeetsOfferCriteria(offer: validOffer, package: package) {
             return validOffer.discountInPercentage
         }
         return 0
+    }
+
+    private func packageMeetsOfferCriteria(offer: Offer, package: Package) -> Bool {
+        package.distanceToDestination >= offer.criteria.distance.min &&
+        package.distanceToDestination <= offer.criteria.distance.max &&
+        package.weightInKg >= offer.criteria.weight.min &&
+        package.weightInKg <= offer.criteria.weight.max
     }
 }
