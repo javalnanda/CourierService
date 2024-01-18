@@ -6,7 +6,7 @@ struct Commands {
         let shortDescription = "Calculates delivery cost"
 
         func execute() throws  {
-            print("Calculating cost..")
+            DeliveryCostFlow().start()
         }
     }
 }
