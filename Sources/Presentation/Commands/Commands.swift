@@ -18,4 +18,13 @@ struct Commands {
             OffersController().displayOffers()
         }
     }
+
+    class AddNewOffer: Command {
+        let name = "add-new-offer"
+        let shortDescription = "Add new offer"
+
+        func execute() throws  {
+            OffersController().addNewOffer()
+        }
+    }
 }

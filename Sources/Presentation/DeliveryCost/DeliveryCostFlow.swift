@@ -10,7 +10,7 @@ struct DeliveryCostFlow {
         
         var packages: [Package] = []
         for i in 0 ..< noOfPackages {
-            print("\nEnter details of package\(i+1):")
+            print("\nPlease enter the details of package\(i+1):")
             let packageId = Input.readLine(prompt: "Enter package Id:")
             let packageWeight = Input.readDouble(prompt: "Enter package weight in kg:")
             let distanceToDestination = Input.readDouble(prompt: "Enter distance to destination:")
