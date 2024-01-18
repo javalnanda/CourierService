@@ -4,7 +4,7 @@ import XCTest
 final class DeliveryInvoiceGeneratorTests: XCTestCase {
 
     func test_generateInvoices_withInvalidOfferCode_returnsValidOutput() {
-        let deliveryCostCalculator = DeliveryCostCalculator()
+        let deliveryCostCalculator = DeliveryCostCalculator(offerStore: OfferStore())
         let sut = DeliveryInvoiceGenerator(deliveryCostCalculator: deliveryCostCalculator)
 
         let baseDeliveryCost = 100.0
@@ -22,7 +22,7 @@ final class DeliveryInvoiceGeneratorTests: XCTestCase {
     }
 
     func test_generateInvoices_withValidOfferCode_returns_totalCost_withDiscount_if_applicable() {
-        let deliveryCostCalculator = DeliveryCostCalculator()
+        let deliveryCostCalculator = DeliveryCostCalculator(offerStore: OfferStore())
         let sut = DeliveryInvoiceGenerator(deliveryCostCalculator: deliveryCostCalculator)
 
         let baseDeliveryCost = 100.0

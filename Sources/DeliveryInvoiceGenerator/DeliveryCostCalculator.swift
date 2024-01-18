@@ -1,30 +1,5 @@
 struct DeliveryCostCalculator {
-    private let offers: [Offer] = [
-        Offer(
-            code: "OFR001",
-            discountInPercentage: 10,
-            criteria: Offer.Criteria(
-                distance: Offer.Range(min: 0, max: 199),
-                weight: Offer.Range(min: 70, max: 200)
-            )
-        ),
-        Offer(
-            code: "OFR002",
-            discountInPercentage: 7,
-            criteria: Offer.Criteria(
-                distance: Offer.Range(min: 50, max: 150),
-                weight: Offer.Range(min: 100, max: 250)
-            )
-        ),
-        Offer(
-            code: "OFR003",
-            discountInPercentage: 5,
-            criteria: Offer.Criteria(
-                distance: Offer.Range(min: 50, max: 250),
-                weight: Offer.Range(min: 10, max: 150)
-            )
-        ),
-    ]
+    let offerStore: OfferStore
 
     func calculateTotalEstimatedCost(
         baseDeliveryCost: Double,
@@ -48,7 +23,7 @@ struct DeliveryCostCalculator {
     }
 
     private func discountPercentageForPackage(package: Package) -> Double {
-        guard let validOffer = offers.first(where: { $0.code == package.offerCode }) else {
+        guard let validOffer = offerStore.getOfferBy(code: package.offerCode) else {
             return 0.0
         }
 
