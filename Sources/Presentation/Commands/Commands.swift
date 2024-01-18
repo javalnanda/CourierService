@@ -9,4 +9,13 @@ struct Commands {
             DeliveryCostFlow().start()
         }
     }
+
+    class GetAllOffers: Command {
+        let name = "get-all-offers"
+        let shortDescription = "Get all offers"
+
+        func execute() throws  {
+            OffersController().displayOffers()
+        }
+    }
 }
