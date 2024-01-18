@@ -1,4 +1,9 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+import SwiftCLI
 
-print("Hello, world!")
+let cli = CLI(
+    name: "CourierService",
+    version: "0.0.1",
+    description: "Kiki's courier delivery service",
+    commands: [Commands.DeliveryCost()]
+)
+cli.go()
