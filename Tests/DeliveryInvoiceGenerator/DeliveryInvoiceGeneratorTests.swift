@@ -4,8 +4,7 @@ import XCTest
 final class DeliveryInvoiceGeneratorTests: XCTestCase {
 
     func test_generateInvoices_withInvalidOfferCode_returnsValidOutput() {
-        let deliveryCostCalculator = DeliveryCostCalculator(offerStore: OfferStore())
-        let sut = DeliveryInvoiceGenerator(deliveryCostCalculator: deliveryCostCalculator)
+        let sut = makeSut()
 
         let baseDeliveryCost = 100.0
         let packages = [
@@ -22,8 +21,7 @@ final class DeliveryInvoiceGeneratorTests: XCTestCase {
     }
 
     func test_generateInvoices_withValidOfferCode_returns_totalCost_withDiscount_if_applicable() {
-        let deliveryCostCalculator = DeliveryCostCalculator(offerStore: OfferStore())
-        let sut = DeliveryInvoiceGenerator(deliveryCostCalculator: deliveryCostCalculator)
+        let sut = makeSut()
 
         let baseDeliveryCost = 100.0
         let packages = [
@@ -39,5 +37,10 @@ final class DeliveryInvoiceGeneratorTests: XCTestCase {
             DeliveryInvoice(packageId: "PKG3", discount: 35, totalCost: 665),
         ]
         XCTAssertEqual(generatedInvoices, expectedInvoices)
+    }
+
+    private func makeSut() -> DeliveryInvoiceGenerator {
+        let deliveryCostCalculator = DeliveryCostCalculator(offerService: MockOfferStore())
+        return DeliveryInvoiceGenerator(deliveryCostCalculator: deliveryCostCalculator)
     }
 }

@@ -88,6 +88,6 @@ final class OfferStoreTests: XCTestCase {
         )
         sut.add(offer: newOffer)
 
-        XCTAssertEqual(sut.offers.count, 3)
+        XCTAssertEqual(sut.getAllOffers().count, 3)
     }
 }

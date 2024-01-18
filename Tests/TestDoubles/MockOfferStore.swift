@@ -1,11 +1,7 @@
-protocol OfferService {
-    func getAllOffers() -> [Offer]
-    func getOfferBy(code: String) -> Offer?
-    func add(offer: Offer)
-}
+@testable import CourierService
 
-class OfferStore: OfferService {
-    private var offers = [
+class MockOfferStore: OfferService {
+    var offers = [
         Offer(
             code: "OFR001",
             discountInPercentage: 10,

@@ -1,5 +1,5 @@
 struct DeliveryCostCalculator {
-    let offerStore: OfferStore
+    let offerService: OfferService
 
     func calculateTotalEstimatedCost(
         baseDeliveryCost: Double,
@@ -23,7 +23,7 @@ struct DeliveryCostCalculator {
     }
 
     private func discountPercentageForPackage(package: Package) -> Double {
-        guard let validOffer = offerStore.getOfferBy(code: package.offerCode) else {
+        guard let validOffer = offerService.getOfferBy(code: package.offerCode) else {
             return 0.0
         }
 

@@ -4,7 +4,7 @@ import XCTest
 final class DeliveryCostCalulatorTests: XCTestCase {
     
     func test_totalEstimatedCostWithInvalidOffer_returns_validCost() {
-        let sut = DeliveryCostCalculator(offerStore: OfferStore())
+        let sut = makeSut()
 
         let baseDeliveryCost = 100.0
         let package = Package(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "Invalid")
@@ -17,7 +17,7 @@ final class DeliveryCostCalulatorTests: XCTestCase {
     }
 
     func test_totalEstimatedCostWithValidOfferCriteria_returns_totalCost_afterApplyingDiscount() {
-        let sut = DeliveryCostCalculator(offerStore: OfferStore())
+        let sut = makeSut()
 
         let baseDeliveryCost = 100.0
         let package = Package(id: "PKG3", weightInKg: 10.0, distanceToDestination: 100.0, offerCode: "OFR003")
@@ -30,7 +30,7 @@ final class DeliveryCostCalulatorTests: XCTestCase {
     }
 
     func test_totalEstimatedCostWithValidOfferCode_notMeetingOfferCriteria_returns_totalCost_withoutDiscount() {
-        let sut = DeliveryCostCalculator(offerStore: OfferStore())
+        let sut = makeSut()
 
         let baseDeliveryCost = 100.0
         let package = Package(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "OFR001")
@@ -43,8 +43,8 @@ final class DeliveryCostCalulatorTests: XCTestCase {
     }
 
     func test_totalEstimatedCost_withPackage_meeting_criteriaOfNewlyAddedOfferCode_returns_appliesCorrectDiscount() {
-        let offerStore = OfferStore()
-        let sut = DeliveryCostCalculator(offerStore: offerStore)
+        let offerStore = MockOfferStore()
+        let sut = makeSut(offerService: offerStore)
         let newOffer = Offer(
             code: "OFR004",
             discountInPercentage: 2,
@@ -63,5 +63,9 @@ final class DeliveryCostCalulatorTests: XCTestCase {
         let expectedDiscount = 29.0
         XCTAssertEqual(expectedEstimatedCost, totalEstimatedCost)
         XCTAssertEqual(expectedDiscount, discount)
+    }
+
+    private func makeSut(offerService: OfferService = MockOfferStore()) -> DeliveryCostCalculator {
+        return DeliveryCostCalculator(offerService: offerService)
     }
 }
