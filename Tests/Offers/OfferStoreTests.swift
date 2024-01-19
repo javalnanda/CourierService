@@ -6,7 +6,7 @@ final class OfferStoreTests: XCTestCase {
         let sut = OfferStore()
 
         let offers = sut.getAllOffers()
-        
+
         let expectedOffers = [
             Offer(
                 code: "OFR001",

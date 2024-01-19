@@ -10,11 +10,11 @@ struct DeliveryCostCalculator {
             package: package
         )
         let discountPercentage = discountPercentageForPackage(package: package)
-        let discountToApply = deliveryCostWithoutDiscount * (discountPercentage/100)
+        let discountToApply = deliveryCostWithoutDiscount * (discountPercentage / 100)
         let totalEstimatedPrice = deliveryCostWithoutDiscount - discountToApply
         return (totalEstimatedPrice, discountToApply)
     }
-    
+
     private func calculateDeliveryCostWithoutDiscount(
         baseDeliveryCost: Double,
         package: Package

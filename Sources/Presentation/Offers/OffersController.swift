@@ -17,7 +17,7 @@ struct OffersController {
                 "\(offer.criteria.weight.max)",
             ]
         }
-        let headerData = [ 
+        let headerData = [
             "Offer Code", "Discount (%)", "Min Distance", "Max Distance", "Min Weight", "Max Weight"
         ]
         tabularData.insert(headerData, at: 0)
