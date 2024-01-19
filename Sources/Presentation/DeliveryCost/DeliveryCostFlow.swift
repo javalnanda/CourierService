@@ -2,7 +2,7 @@ import SwiftCLI
 import Table
 
 struct DeliveryCostFlow {
-    let invoiceGenerator = DeliveryInvoiceGeneratorFactory().build()
+    private let invoiceGenerator = DeliveryInvoiceGeneratorFactory().build()
 
     func start() {
         let baseDeliveryCost = Input.readDouble(prompt: "Please enter the base delivery cost:")

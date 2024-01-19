@@ -2,10 +2,10 @@ import SwiftCLI
 import Table
 
 struct OffersController {
-    let offerstore = OfferStore()
+    private let offerService: OfferService = CourierService.offerStore
 
     func displayOffers() {
-        let offers = offerstore.getAllOffers()
+        let offers = offerService.getAllOffers()
 
         var tabularData = offers.map { offer in
             [
@@ -42,7 +42,7 @@ struct OffersController {
                 weight: Offer.Range(min: minWeight, max: maxWeight)
             )
         )
-        offerstore.add(offer: newOffer)
+        offerService.add(offer: newOffer)
         displayOffers()
     }
 }
