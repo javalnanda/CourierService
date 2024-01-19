@@ -41,4 +41,8 @@ class MockOfferStore: OfferService {
             offers.append(offer)
         }
     }
+
+    func removeOffer(code: String) {
+        offers.removeAll { $0.code.uppercased() == code.uppercased() }
+    }
 }

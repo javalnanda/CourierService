@@ -106,4 +106,21 @@ final class OfferStoreTests: XCTestCase {
         )
         XCTAssertEqual(expectedOffer, offer1)
     }
+
+    func test_removeOffer_removes_offer() {
+        let sut = OfferStore()
+        let newOffer = Offer(
+            code: "OFR004",
+            discountInPercentage: 2,
+            criteria: Offer.Criteria(
+                distance: Offer.Range(min: 100, max: 300),
+                weight: Offer.Range(min: 50, max: 200)
+            )
+        )
+        sut.add(offer: newOffer)
+
+        sut.removeOffer(code: "ofr004")
+
+        XCTAssertNil(sut.getOfferBy(code: "ofr004"))
+    }
 }

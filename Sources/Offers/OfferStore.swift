@@ -2,6 +2,7 @@ protocol OfferService {
     func getAllOffers() -> [Offer]
     func getOfferBy(code: String) -> Offer?
     func add(offer: Offer)
+    func removeOffer(code: String)
 }
 
 class OfferStore: OfferService {
@@ -44,5 +45,9 @@ class OfferStore: OfferService {
         if !offers.contains(offer) {
             offers.append(offer)
         }
+    }
+
+    func removeOffer(code: String) {
+        offers.removeAll { $0.code.uppercased() == code.uppercased() }
     }
 }

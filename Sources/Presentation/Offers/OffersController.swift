@@ -43,6 +43,14 @@ struct OffersController {
             )
         )
         offerService.add(offer: newOffer)
+        print("\nOffers updated:")
+        displayOffers()
+    }
+
+    func removeOffer() {
+        let offerCode = Input.readLine(prompt: "Please enter offer code of Offer to be removed:").uppercased()
+        offerService.removeOffer(code: offerCode)
+        print("\nOffers updated:")
         displayOffers()
     }
 }
