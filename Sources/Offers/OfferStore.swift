@@ -37,11 +37,11 @@ class OfferStore: OfferService {
     }
 
     func getOfferBy(code: String) -> Offer? {
-        return offers.first(where: { $0.code == code})
+        return offers.first(where: { $0.code.uppercased() == code.uppercased()})
     }
 
     func add(offer: Offer) {
-        if offers.first(where: { $0.code == offer.code }) == nil {
+        if getOfferBy(code: offer.code) == nil {
             offers.append(offer)
         }
     }

@@ -27,7 +27,7 @@ struct OffersController {
 
     func addNewOffer() {
         print("\nPlease enter the details of new offer:")
-        let offerCode = Input.readLine(prompt: "Enter Offer Code:")
+        let offerCode = Input.readLine(prompt: "Enter Offer Code:").uppercased()
         let discount = Input.readDouble(prompt: "Enter discount in percentage:")
         let minDistance = Input.readDouble(prompt: "Enter minimum distance to deliver for the offer to be valid:")
         let maxDistance = Input.readDouble(prompt: "Enter maximum distance to deliver for the offer to be valid:")

@@ -90,4 +90,20 @@ final class OfferStoreTests: XCTestCase {
 
         XCTAssertEqual(sut.getAllOffers().count, 3)
     }
+
+    func test_getOffer_is_caseInsensitive() {
+        let sut = OfferStore()
+
+        let offer1 = sut.getOfferBy(code: "ofr001")
+
+        let expectedOffer = Offer(
+            code: "OFR001",
+            discountInPercentage: 10,
+            criteria: Offer.Criteria(
+                distance: Offer.Range(min: 0, max: 199),
+                weight: Offer.Range(min: 70, max: 200)
+            )
+        )
+        XCTAssertEqual(expectedOffer, offer1)
+    }
 }
