@@ -89,3 +89,49 @@ PKG3 0 2350 1.42
 PKG4 105 1395 0.85
 PKG5 0 2125 4.19
 
+## Usage
+
+#### Prerequisite
+
+Make sure [Swift](https://www.swift.org/install/macos/) is installed
+
+Built with swift-tools-version: 5.9
+
+#### via command line
+To run the app, enter following command in project's root folder:
+
+```
+swift run
+```
+
+To run tests, enter following command:
+
+```
+swift test
+```
+
+Installing the CourierService command line tool
+
+To enable it to be run from anywhere on the command line, build the tool using the release configuration, and then move the compiled binary to `/usr/local/bin`:
+
+```
+swift build -c release
+cd .build/release
+cp -f CourierService /usr/local/bin/courierservice
+```
+Now you can run `courierservice` from anywhere on the command line
+
+#### via Xcode
+Open `Package.swift` file in Xcode.
+
+Press ⌘ + R to run the app
+Press ⌘ + U to run the tests
+
+### About Project
+
+- Core Module's business logic was built using TDD and the steps for it can be referred from the git history. 
+- The names of modules/classes are not defined based on any specific architecture but are generalized based on responsibility and the code can be easily extracted further into different layers if required as the care is taken to keep low coupling.
+- Public api's are part of Protocol/Interface allowing concrete implementation to be replaced by other implementation if needed.
+- OfferStore is used as an in-memory store. Swift's command line application cannot write to files in a binary and writing db/store to external directory would not be advisable for the current requirement.
+- Working with `Double` results in some difference in calculation if we use floor/ceil/round hence a utility is used to truncate decimals to 2 places and store it as a string for final display
+
