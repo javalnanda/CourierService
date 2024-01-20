@@ -2,6 +2,7 @@ import SwiftCLI
 
 enum ServiceOption: Int, CaseIterable {
     case deliveryCost
+    case deliveryTime
     case getAllOffers
     case addNewOffer
     case removeOffer
@@ -10,6 +11,7 @@ enum ServiceOption: Int, CaseIterable {
     var description: String {
         switch self {
         case .deliveryCost: return "Calculate Delivery Cost"
+        case .deliveryTime: return "Calculate Delivery Time"
         case .getAllOffers: return "Get all offers"
         case .addNewOffer: return "Add new offer"
         case .removeOffer: return "Remove offer"
@@ -19,6 +21,7 @@ enum ServiceOption: Int, CaseIterable {
 }
 
 typealias PackageData = (id: String, weight: Double, distance: Double, offer: String)
+typealias VehicleInfo = (numberOfVehicles: Int, maxSpeed: Double, maxWeightCapacity: Double)
 typealias OfferData = (
     offerCode: String,
     discount: Double,
@@ -59,6 +62,14 @@ struct CLI {
             packages.append(package)
         }
         return (baseDeliveryCost, packages)
+    }
+
+    func getVehicleInfo() -> VehicleInfo {
+        print("\nPlease enter the details of vehicle for delivery:")
+        let numberOfVehicles = Input.readInt(prompt: "Enter number of vehicles:")
+        let maxSpeed = Input.readDouble(prompt: "Enter max speed of vehicles:")
+        let maxWeight = Input.readDouble(prompt: "Enter max weight carrying capacity of vehicles:")
+        return VehicleInfo(numberOfVehicles: numberOfVehicles, maxSpeed: maxSpeed, maxWeightCapacity: maxWeight)
     }
 
     func getNewOfferData() -> OfferData {

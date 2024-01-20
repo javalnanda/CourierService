@@ -1,5 +1,3 @@
-import SwiftCLI
-
 struct AppRouter {
     private let courierDeliveryPresenter = CourierDeliveryPresenterFactory().build()
     private let offersPresenter = OffersPresenterFactory().build()
@@ -12,6 +10,7 @@ struct AppRouter {
     private func processInput(serviceOpion: ServiceOption) {
         switch serviceOpion {
         case .deliveryCost: courierDeliveryPresenter.calculateCost()
+        case .deliveryTime: courierDeliveryPresenter.calculateTime()
         case .getAllOffers: offersPresenter.displayOffers()
         case .addNewOffer: offersPresenter.addNewOffer()
         case .removeOffer: offersPresenter.removeOffer()
