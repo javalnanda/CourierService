@@ -2,7 +2,7 @@ import SwiftCLI
 
 struct AppRouter {
     private let deliveryFlow = DeliveryCostFlow()
-    private let offersController = OffersController()
+    private let offersController = OffersControllerFactory().build()
 
     func start() {
         showMenu()

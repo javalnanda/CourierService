@@ -2,7 +2,7 @@ import SwiftCLI
 import Table
 
 struct OffersController {
-    private let offerService: OfferService = OfferStore.shared
+    let offerService: OfferService
 
     func displayOffers() {
         let offers = offerService.getAllOffers()
