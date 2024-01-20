@@ -1,10 +1,10 @@
 import SwiftCLI
 import Table
 
-struct DeliveryCostFlow {
+struct CourierDeliveryPresenter {
     private let courierDelivery = CourierDeliveryFactory().build()
 
-    func start() {
+    func calculateCost() {
         let (baseDeliveryCost, packages) = getInputsForCostCalculation()
         let invoices = courierDelivery.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
         displayOutput(invoices: invoices)

@@ -1,8 +1,8 @@
 import SwiftCLI
 
 struct AppRouter {
-    private let deliveryFlow = DeliveryCostFlow()
-    private let offersController = OffersControllerFactory().build()
+    private let courierDeliveryPresenter = CourierDeliveryPresenter()
+    private let offersPresenter = OffersPresenterFactory().build()
 
     func start() {
         showMenu()
@@ -19,10 +19,10 @@ struct AppRouter {
           """)
         let input = Input.readInt(prompt: "Enter choice:")
         switch input {
-        case 1: deliveryFlow.start()
-        case 2: offersController.displayOffers()
-        case 3: offersController.addNewOffer()
-        case 4: offersController.removeOffer()
+        case 1: courierDeliveryPresenter.calculateCost()
+        case 2: offersPresenter.displayOffers()
+        case 3: offersPresenter.addNewOffer()
+        case 4: offersPresenter.removeOffer()
         case 5: exit(0)
         default: print("Please enter valid choice")
         }

@@ -1,7 +1,7 @@
 import SwiftCLI
 import Table
 
-struct OffersController {
+struct OffersPresenter {
     let offerService: OfferService
 
     func displayOffers() {
