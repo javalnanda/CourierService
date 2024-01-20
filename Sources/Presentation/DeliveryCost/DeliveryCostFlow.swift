@@ -28,7 +28,7 @@ struct DeliveryCostFlow {
         displayOutput(invoices: invoices)
     }
 
-    private func displayOutput(invoices: [DeliveryInvoice]) {
+    private func displayOutput(invoices: [DeliveryCost]) {
         var tabularData = invoices.map { deliveryInvoice in
             [
                 "\(deliveryInvoice.packageId)",

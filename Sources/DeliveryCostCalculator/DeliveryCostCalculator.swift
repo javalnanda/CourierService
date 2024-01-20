@@ -4,7 +4,7 @@ struct DeliveryCostCalculator {
     func calculateTotalEstimatedCost(
         baseDeliveryCost: Double,
         package: PackageWithOffer
-    ) -> (totalCost: Double, discount: Double) {
+    ) -> DeliveryCost {
         let deliveryCostWithoutDiscount = calculateDeliveryCostWithoutDiscount(
             baseDeliveryCost: baseDeliveryCost,
             package: package
@@ -12,7 +12,7 @@ struct DeliveryCostCalculator {
         let discountPercentage = discountPercentageForPackage(package: package)
         let discountToApply = deliveryCostWithoutDiscount * (discountPercentage / 100)
         let totalEstimatedPrice = deliveryCostWithoutDiscount - discountToApply
-        return (totalEstimatedPrice, discountToApply)
+        return DeliveryCost(packageId: package.id, discount: discountToApply, totalCost: totalEstimatedPrice)
     }
 
     private func calculateDeliveryCostWithoutDiscount(

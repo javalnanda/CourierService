@@ -4,21 +4,15 @@ struct DeliveryInvoiceGenerator {
     func generateInvoices(
         baseDeliveryCost: Double,
         packages: [PackageWithOffer]
-    ) -> [DeliveryInvoice] {
-        var invoices: [DeliveryInvoice] = []
+    ) -> [DeliveryCost] {
+        var costOfDeliveries: [DeliveryCost] = []
         for package in packages {
-            let (totalCost, discount) = deliveryCostCalculator.calculateTotalEstimatedCost(
+            let deliveryCost = deliveryCostCalculator.calculateTotalEstimatedCost(
                 baseDeliveryCost: baseDeliveryCost,
                 package: package
             )
-            invoices.append(
-                DeliveryInvoice(
-                    packageId: package.id,
-                    discount: discount,
-                    totalCost: totalCost
-                )
-            )
+            costOfDeliveries.append(deliveryCost)
         }
-        return invoices
+        return costOfDeliveries
     }
 }

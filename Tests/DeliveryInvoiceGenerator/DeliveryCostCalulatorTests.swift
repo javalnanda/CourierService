@@ -8,12 +8,10 @@ final class DeliveryCostCalulatorTests: XCTestCase {
 
         let baseDeliveryCost = 100.0
         let package = PackageWithOffer(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "Invalid")
-        let (totalEstimatedCost, discount) = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
+        let deliveryCost = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
 
-        let expectedEstimatedCost = 175.0
-        let expectedDiscount = 0.0
-        XCTAssertEqual(expectedEstimatedCost, totalEstimatedCost)
-        XCTAssertEqual(expectedDiscount, discount)
+        let expectedDeliveryCost = DeliveryCost(packageId: "PKG1", discount: 0.0, totalCost: 175.0)
+        XCTAssertEqual(expectedDeliveryCost, deliveryCost)
     }
 
     func test_totalEstimatedCostWithValidOfferCriteria_returns_totalCost_afterApplyingDiscount() {
@@ -21,12 +19,10 @@ final class DeliveryCostCalulatorTests: XCTestCase {
 
         let baseDeliveryCost = 100.0
         let package = PackageWithOffer(id: "PKG3", weightInKg: 10.0, distanceToDestination: 100.0, offerCode: "OFR003")
-        let (totalEstimatedCost, discount) = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
+        let deliveryCost = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
 
-        let expectedEstimatedCost = 665.0
-        let expectedDiscount = 35.0
-        XCTAssertEqual(expectedEstimatedCost, totalEstimatedCost)
-        XCTAssertEqual(expectedDiscount, discount)
+        let expectedDeliveryCost = DeliveryCost(packageId: "PKG3", discount: 35.0, totalCost: 665.0)
+        XCTAssertEqual(expectedDeliveryCost, deliveryCost)
     }
 
     func test_totalEstimatedCostWithValidOfferCode_notMeetingOfferCriteria_returns_totalCost_withoutDiscount() {
@@ -34,12 +30,10 @@ final class DeliveryCostCalulatorTests: XCTestCase {
 
         let baseDeliveryCost = 100.0
         let package = PackageWithOffer(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "OFR001")
-        let (totalEstimatedCost, discount) = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
+        let deliveryCost = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
 
-        let expectedEstimatedCost = 175.0
-        let expectedDiscount = 0.0
-        XCTAssertEqual(expectedEstimatedCost, totalEstimatedCost)
-        XCTAssertEqual(expectedDiscount, discount)
+        let expectedDeliveryCost = DeliveryCost(packageId: "PKG1", discount: 0.0, totalCost: 175.0)
+        XCTAssertEqual(expectedDeliveryCost, deliveryCost)
     }
 
     func test_totalEstimatedCost_withPackage_meeting_criteriaOfNewlyAddedOfferCode_returns_appliesCorrectDiscount() {
@@ -57,12 +51,10 @@ final class DeliveryCostCalulatorTests: XCTestCase {
 
         let baseDeliveryCost = 100.0
         let package = PackageWithOffer(id: "PKG1", weightInKg: 60.0, distanceToDestination: 150, offerCode: "OFR004")
-        let (totalEstimatedCost, discount) = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
+        let deliveryCost = sut.calculateTotalEstimatedCost(baseDeliveryCost: baseDeliveryCost, package: package)
 
-        let expectedEstimatedCost = 1421.0
-        let expectedDiscount = 29.0
-        XCTAssertEqual(expectedEstimatedCost, totalEstimatedCost)
-        XCTAssertEqual(expectedDiscount, discount)
+        let expectedDeliveryCost = DeliveryCost(packageId: "PKG1", discount: 29.0, totalCost: 1421.0)
+        XCTAssertEqual(expectedDeliveryCost, deliveryCost)
     }
 
     private func makeSut(offerService: OfferService = MockOfferStore()) -> DeliveryCostCalculator {
