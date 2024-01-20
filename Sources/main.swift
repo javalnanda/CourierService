@@ -1,1 +1,1 @@
-CourierService().main()
+AppRouter().start()

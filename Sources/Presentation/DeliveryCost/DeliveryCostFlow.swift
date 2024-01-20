@@ -2,7 +2,7 @@ import SwiftCLI
 import Table
 
 struct DeliveryCostFlow {
-    private let invoiceGenerator = CourierDeliveryFactory().build()
+    private let courierDelivery = CourierDeliveryFactory().build()
 
     func start() {
         let baseDeliveryCost = Input.readDouble(prompt: "Please enter the base delivery cost:")
@@ -24,7 +24,7 @@ struct DeliveryCostFlow {
             packages.append(package)
         }
 
-        let invoices = invoiceGenerator.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
+        let invoices = courierDelivery.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
         displayOutput(invoices: invoices)
     }
 

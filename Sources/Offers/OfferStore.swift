@@ -6,6 +6,8 @@ protocol OfferService {
 }
 
 class OfferStore: OfferService {
+    static let shared = OfferStore()
+
     private var offers = [
         Offer(
             code: "OFR001",

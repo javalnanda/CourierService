@@ -78,7 +78,7 @@ pkg_id1 discount1 total_cost1 estimated_delivery_time1_in_hour
 PKG1 50 30 OFR001
 PKG2 75 125 OFFR0008
 PKG3 175 100 OFFR003
-PKG4 110 60 OFFR002
+PKG4 110 60 OFR002
 PKG5 155 95 NA
 2 70 200
 

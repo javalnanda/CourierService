@@ -1,11 +1,10 @@
 import SwiftCLI
 
-struct CourierService {
-    static var offerStore = OfferStore()
+struct AppRouter {
     private let deliveryFlow = DeliveryCostFlow()
     private let offersController = OffersController()
 
-    func main() {
+    func start() {
         showMenu()
     }
 
