@@ -1,7 +1,7 @@
-struct DeliveryInvoiceGenerator {
+struct CourierDelivery {
     let deliveryCostCalculator: DeliveryCostCalculator
 
-    func generateInvoices(
+    func calculateCostOfDeliveries(
         baseDeliveryCost: Double,
         packages: [PackageWithOffer]
     ) -> [DeliveryCost] {

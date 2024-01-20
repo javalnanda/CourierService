@@ -24,7 +24,7 @@ struct DeliveryCostFlow {
             packages.append(package)
         }
 
-        let invoices = invoiceGenerator.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
+        let invoices = invoiceGenerator.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
         displayOutput(invoices: invoices)
     }
 

@@ -1,9 +1,9 @@
 import XCTest
 @testable import CourierService
 
-final class DeliveryCostGeneratorTests: XCTestCase {
+final class CourierDeliveryTests: XCTestCase {
 
-    func test_generateInvoices_withInvalidOfferCode_returnsValidOutput() {
+    func test_costOfDeliveries_withInvalidOfferCode_returnsValidOutput() {
         let sut = makeSut()
 
         let baseDeliveryCost = 100.0
@@ -11,7 +11,7 @@ final class DeliveryCostGeneratorTests: XCTestCase {
             PackageWithOffer(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "Invalid"),
             PackageWithOffer(id: "PKG2", weightInKg: 15.0, distanceToDestination: 5.0, offerCode: "Invalid")
         ]
-        let estimatedCostOfDeliveries = sut.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
+        let estimatedCostOfDeliveries = sut.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
 
         let expectedCostOfDeliveries = [
             DeliveryCost(packageId: "PKG1", discount: 0, totalCost: 175),
@@ -20,7 +20,7 @@ final class DeliveryCostGeneratorTests: XCTestCase {
         XCTAssertEqual(estimatedCostOfDeliveries, expectedCostOfDeliveries)
     }
 
-    func test_generateInvoices_withValidOfferCode_returns_totalCost_withDiscount_if_applicable() {
+    func test_costOfDeliveries_withValidOfferCode_returns_totalCost_withDiscount_if_applicable() {
         let sut = makeSut()
 
         let baseDeliveryCost = 100.0
@@ -29,7 +29,7 @@ final class DeliveryCostGeneratorTests: XCTestCase {
             PackageWithOffer(id: "PKG2", weightInKg: 15.0, distanceToDestination: 5.0, offerCode: "OFR002"),
             PackageWithOffer(id: "PKG3", weightInKg: 10.0, distanceToDestination: 100.0, offerCode: "OFR003")
         ]
-        let estimatedCostOfDeliveries = sut.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
+        let estimatedCostOfDeliveries = sut.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
 
         let expectedCostOfDeliveries = [
             DeliveryCost(packageId: "PKG1", discount: 0, totalCost: 175),
@@ -39,8 +39,8 @@ final class DeliveryCostGeneratorTests: XCTestCase {
         XCTAssertEqual(estimatedCostOfDeliveries, expectedCostOfDeliveries)
     }
 
-    private func makeSut() -> DeliveryInvoiceGenerator {
+    private func makeSut() -> CourierDelivery {
         let deliveryCostCalculator = DeliveryCostCalculator(offerService: MockOfferStore())
-        return DeliveryInvoiceGenerator(deliveryCostCalculator: deliveryCostCalculator)
+        return CourierDelivery(deliveryCostCalculator: deliveryCostCalculator)
     }
 }

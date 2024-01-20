@@ -1,6 +1,6 @@
 struct DeliveryInvoiceGeneratorFactory {
-    func build() -> DeliveryInvoiceGenerator {
+    func build() -> CourierDelivery {
         let costCalculator = DeliveryCostCalculator(offerService: CourierService.offerStore)
-        return DeliveryInvoiceGenerator(deliveryCostCalculator: costCalculator)
+        return CourierDelivery(deliveryCostCalculator: costCalculator)
     }
 }
