@@ -25,7 +25,11 @@ struct CourierDelivery {
     ) -> [DeliveryCostAndTime] {
         let costOfDeliveries = calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
         let packagesWithoutOffer = packages.map { $0.toPackageWithoutOffer() }
-        let packageDeliveryTimes = deliveryTimeCalculator.estimateDeliveryTime(packages: packagesWithoutOffer, numberOfVehicles: numberOfVehicles, vehicleSpecification: vehicleSpec)
+        let packageDeliveryTimes = deliveryTimeCalculator.estimateDeliveryTime(
+            packages: packagesWithoutOffer,
+            numberOfVehicles: numberOfVehicles,
+            vehicleSpecification: vehicleSpec
+        )
 
         var costAndTimeOfDeliveries: [DeliveryCostAndTime] = []
         let costAndTimeZipped = zip(costOfDeliveries, packageDeliveryTimes)

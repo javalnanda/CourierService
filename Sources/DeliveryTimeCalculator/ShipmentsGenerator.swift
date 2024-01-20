@@ -47,11 +47,9 @@ struct ShipmentsGenerator {
         let sortedShipments = sortByWeightAndDistance(shipments: shipments)
         for shipment in sortedShipments {
             var updatedPackages: [Package] = []
-            for package in shipment.packages {
-                if !packageSelected.contains(package) {
-                    updatedPackages.append(package)
-                    packageSelected.append(package)
-                }
+            for package in shipment.packages where !packageSelected.contains(package) {
+                updatedPackages.append(package)
+                packageSelected.append(package)
             }
             if !updatedPackages.isEmpty {
                 let updatedShipment = createShipment(

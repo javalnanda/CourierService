@@ -52,7 +52,12 @@ final class CourierDeliveryTests: XCTestCase {
             PackageWithOffer(id: "PKG4", weightInKg: 110.0, distanceToDestination: 60.0, offerCode: "OFR002"),
             PackageWithOffer(id: "PKG5", weightInKg: 155.0, distanceToDestination: 95.0, offerCode: "")
         ]
-        let costAndTimeOfDeliveries = sut.calcuateCostAndTimeOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packagesWithOffer, numberOfVehicles: noOfVehicles, vehicleSpec: vehicleSpec)
+        let costAndTimeOfDeliveries = sut.calcuateCostAndTimeOfDeliveries(
+            baseDeliveryCost: baseDeliveryCost,
+            packages: packagesWithOffer,
+            numberOfVehicles: noOfVehicles,
+            vehicleSpec: vehicleSpec
+        )
 
         let expectedCostAndTimeOfDeliveries = [
             DeliveryCostAndTime(packageId: "PKG1", discount: 0.0, totalCost: 750.0, estimatedDeliveryTime: "3.98"),

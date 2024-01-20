@@ -31,8 +31,8 @@ struct DeliveryTimeCalculator {
         var availableVehicles = vehicles
         var remainingShipments = shipments
         var packagesEstimatedDeliveryTime: [PackageDeliveryTime] = []
-        while remainingShipments.count > 0 {
-            if availableVehicles.count > 0 {
+        while !remainingShipments.isEmpty {
+            if !availableVehicles.isEmpty {
                 let (packagesDeliveryTime, updatedVehicle) = deliverShipmentAndUpdateVehicle(
                     shipment: remainingShipments.removeFirst(),
                     vehicle: availableVehicles.removeFirst()
