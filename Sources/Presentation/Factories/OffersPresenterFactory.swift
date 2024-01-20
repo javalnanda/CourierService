@@ -1,5 +1,5 @@
 struct OffersPresenterFactory {
-    func build() -> OffersPresenter {
-        OffersPresenter(offerService: OfferStore.shared)
+    func build() -> OffersPresentable {
+        OffersPresenter(offerService: OfferStore.shared, cli: CLI.shared)
     }
 }

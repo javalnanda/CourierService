@@ -1,1 +1,1 @@
-AppRouter().showMainMenu()
+AppRouterFactory().build().showMainMenu()

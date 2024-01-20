@@ -31,7 +31,16 @@ struct OfferData {
     let maxDistance: Double
 }
 
-struct CLI {
+protocol CLIService {
+    func getUserChoice() -> ServiceOption
+    func getInputsForCostCalculation() -> (baseDeliveryCost: Double, packages: [PackageData])
+    func getVehicleInfo() -> VehicleData
+    func getNewOfferData() -> OfferData
+    func getOfferCodeToRemove() -> String
+    func display(output: String)
+}
+
+struct CLI: CLIService {
     static let shared = CLI()
     func getUserChoice() -> ServiceOption {
         print("\nWhat would you like to do?")

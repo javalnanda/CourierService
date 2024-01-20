@@ -8,7 +8,7 @@ protocol OffersPresentable {
 
 struct OffersPresenter: OffersPresentable {
     let offerService: OfferService
-    let cli = CLI.shared
+    let cli: CLIService
 
     func displayOffers() {
         let offers = offerService.getAllOffers()
@@ -32,14 +32,7 @@ struct OffersPresenter: OffersPresentable {
 
     func addNewOffer() {
         let offerData = cli.getNewOfferData()
-        let newOffer = Offer(
-            code: offerData.offerCode,
-            discountInPercentage: offerData.discount,
-            criteria: Offer.Criteria(
-                distance: Offer.Range(min: offerData.minDistance, max: offerData.maxDistance),
-                weight: Offer.Range(min: offerData.minWeight, max: offerData.maxWeight)
-            )
-        )
+        let newOffer = offerData.toOffer()
         offerService.add(offer: newOffer)
         cli.display(output: "\nOffers updated:")
         displayOffers()
@@ -50,5 +43,21 @@ struct OffersPresenter: OffersPresentable {
         offerService.removeOffer(code: offerCode)
         cli.display(output: "\nOffers updated:")
         displayOffers()
+    }
+}
+
+extension OfferData {
+    func toOffer() -> Offer {
+        Offer(
+            code: offerCode,
+            discountInPercentage: discount,
+            criteria: Offer.Criteria(
+                distance: Offer.Range(min: minDistance, max: maxDistance),
+                weight: Offer.Range(
+                    min: minWeight,
+                    max: maxWeight
+                )
+            )
+        )
     }
 }

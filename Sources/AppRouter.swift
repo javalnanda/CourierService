@@ -1,9 +1,11 @@
+import Foundation
 struct AppRouter {
-    private let courierDeliveryPresenter = CourierDeliveryPresenterFactory().build()
-    private let offersPresenter = OffersPresenterFactory().build()
+    let courierDeliveryPresenter: CourierDeliveryPresentable
+    let offersPresenter: OffersPresentable
+    let cli: CLIService
 
     func showMainMenu() {
-        let input = CLI.shared.getUserChoice()
+        let input = cli.getUserChoice()
         processInput(serviceOpion: input)
     }
 
@@ -16,8 +18,17 @@ struct AppRouter {
         case .removeOffer: offersPresenter.removeOffer()
         case .exit: exit(0)
         }
-        // This prevents command line process from exiting and displays the menu again
-        // after finishing previous request.
-        showMainMenu()
+
+        if !isRunningTests {
+            // This prevents command line process from exiting and displays the menu again
+            // after finishing previous request.
+            showMainMenu()
+        }
     }
+}
+
+var isRunningTests: Bool {
+    let isTestProcess = ProcessInfo.processInfo.processName.contains("xctest") ||
+    (ProcessInfo.processInfo.environment["isRunningTest"] != nil)
+    return isTestProcess
 }

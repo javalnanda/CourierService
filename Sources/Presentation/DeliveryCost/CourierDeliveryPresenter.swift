@@ -7,18 +7,11 @@ protocol CourierDeliveryPresentable {
 
 struct CourierDeliveryPresenter: CourierDeliveryPresentable {
     let courierDelivery: CourierDeliveryService
-    let cli = CLI.shared
+    let cli: CLIService
 
     func calculateCost() {
         let (baseDeliveryCost, packages) = cli.getInputsForCostCalculation()
-        let packagesWithOffers = packages.map { packageData in
-            PackageWithOffer(
-                id: packageData.id,
-                weightInKg: packageData.weight,
-                distanceToDestination: packageData.distance,
-                offerCode: packageData.offer
-            )
-        }
+        let packagesWithOffers = packages.map { $0.toPackageWithOffers() }
         let costOfDeliveries = courierDelivery.calculateCostOfDeliveries(
             baseDeliveryCost: baseDeliveryCost,
             packages: packagesWithOffers
@@ -29,14 +22,7 @@ struct CourierDeliveryPresenter: CourierDeliveryPresentable {
     func calculateTime() {
         let (baseDeliveryCost, packages) = cli.getInputsForCostCalculation()
         let vehicleInfo = cli.getVehicleInfo()
-        let packagesWithOffers = packages.map { packageData in
-            PackageWithOffer(
-                id: packageData.id,
-                weightInKg: packageData.weight,
-                distanceToDestination: packageData.distance,
-                offerCode: packageData.offer
-            )
-        }
+        let packagesWithOffers = packages.map { $0.toPackageWithOffers() }
         let costAndTimeOfDeliveries = courierDelivery.calcuateCostAndTimeOfDeliveries(
             baseDeliveryCost: baseDeliveryCost,
             packages: packagesWithOffers,
@@ -60,7 +46,7 @@ struct CourierDeliveryPresenter: CourierDeliveryPresentable {
         let headerData = ["PackageId", "Discount", "Total Cost"]
         tabularData.insert(headerData, at: 0)
         let table = try? Table(data: tabularData).table()
-        CLI.shared.display(output: table ?? "\(costOfDeliveries)")
+        cli.display(output: table ?? "\(costOfDeliveries)")
     }
 
     private func displayCostAndTime(costAndTimeOfDeliveries: [DeliveryCostAndTime]) {
@@ -75,6 +61,17 @@ struct CourierDeliveryPresenter: CourierDeliveryPresentable {
         let headerData = ["PackageId", "Discount", "Total Cost", "Estimated Delivery Time"]
         tabularData.insert(headerData, at: 0)
         let table = try? Table(data: tabularData).table()
-        CLI.shared.display(output: table ?? "\(costAndTimeOfDeliveries)")
+        cli.display(output: table ?? "\(costAndTimeOfDeliveries)")
+    }
+}
+
+extension PackageData {
+    func toPackageWithOffers() -> PackageWithOffer {
+        PackageWithOffer(
+            id: id,
+            weightInKg: weight,
+            distanceToDestination: distance,
+            offerCode: offer
+        )
     }
 }
