@@ -1,12 +1,11 @@
-import SwiftCLI
 import Table
 
 struct OffersPresenter {
     let offerService: OfferService
+    let cli = CLI.shared
 
     func displayOffers() {
         let offers = offerService.getAllOffers()
-
         var tabularData = offers.map { offer in
             [
                 "\(offer.code)",
@@ -22,35 +21,28 @@ struct OffersPresenter {
         ]
         tabularData.insert(headerData, at: 0)
         let table = try? Table(data: tabularData).table()
-        print(table ?? offers)
+        cli.display(output: table ?? "\(offers)")
     }
 
     func addNewOffer() {
-        print("\nPlease enter the details of new offer:")
-        let offerCode = Input.readLine(prompt: "Enter Offer Code:").uppercased()
-        let discount = Input.readDouble(prompt: "Enter discount in percentage:")
-        let minDistance = Input.readDouble(prompt: "Enter minimum distance to deliver for the offer to be valid:")
-        let maxDistance = Input.readDouble(prompt: "Enter maximum distance to deliver for the offer to be valid:")
-        let minWeight = Input.readDouble(prompt: "Enter minimum weight of the package for the offer to be valid:")
-        let maxWeight = Input.readDouble(prompt: "Enter maximum weight of the package for the offer to be valid:")
-
+        let offerData = cli.getNewOfferData()
         let newOffer = Offer(
-            code: offerCode,
-            discountInPercentage: discount,
+            code: offerData.offerCode,
+            discountInPercentage: offerData.discount,
             criteria: Offer.Criteria(
-                distance: Offer.Range(min: minDistance, max: maxDistance),
-                weight: Offer.Range(min: minWeight, max: maxWeight)
+                distance: Offer.Range(min: offerData.minDistance, max: offerData.maxDistance),
+                weight: Offer.Range(min: offerData.minWeight, max: offerData.maxWeight)
             )
         )
         offerService.add(offer: newOffer)
-        print("\nOffers updated:")
+        cli.display(output: "\nOffers updated:")
         displayOffers()
     }
 
     func removeOffer() {
-        let offerCode = Input.readLine(prompt: "Please enter offer code of Offer to be removed:").uppercased()
+        let offerCode = cli.getOfferCodeToRemove().uppercased()
         offerService.removeOffer(code: offerCode)
-        print("\nOffers updated:")
+        cli.display(output: "\nOffers updated:")
         displayOffers()
     }
 }

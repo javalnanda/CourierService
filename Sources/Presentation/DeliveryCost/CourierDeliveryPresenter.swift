@@ -1,39 +1,28 @@
-import SwiftCLI
 import Table
 
 struct CourierDeliveryPresenter {
-    private let courierDelivery = CourierDeliveryFactory().build()
+    let courierDelivery: CourierDelivery
+    let cli = CLI.shared
 
     func calculateCost() {
-        let (baseDeliveryCost, packages) = getInputsForCostCalculation()
-        let invoices = courierDelivery.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
-        displayOutput(invoices: invoices)
-    }
-
-    private func getInputsForCostCalculation() -> (baseDeliveryCost: Double, packages: [PackageWithOffer]) {
-        let baseDeliveryCost = Input.readDouble(prompt: "Please enter the base delivery cost:")
-        let noOfPackages = Input.readInt(prompt: "Please enter the number of packages to deliver:")
-
-        var packages: [PackageWithOffer] = []
-        for i in 0 ..< noOfPackages {
-            print("\nPlease enter the details of package\(i + 1):")
-            let packageId = Input.readLine(prompt: "Enter package Id:")
-            let packageWeight = Input.readDouble(prompt: "Enter package weight in kg:")
-            let distanceToDestination = Input.readDouble(prompt: "Enter distance to destination:")
-            let offerCode = Input.readLine(prompt: "Enter Offer Code:")
-            let package = PackageWithOffer(
-                id: packageId,
-                weightInKg: packageWeight,
-                distanceToDestination: distanceToDestination,
-                offerCode: offerCode
+        let (baseDeliveryCost, packages) = cli.getInputsForCostCalculation()
+        let packagesWithOffers = packages.map { packageData in
+            PackageWithOffer(
+                id: packageData.id,
+                weightInKg: packageData.weight,
+                distanceToDestination: packageData.distance,
+                offerCode: packageData.offer
             )
-            packages.append(package)
         }
-        return (baseDeliveryCost, packages)
+        let costOfDeliveries = courierDelivery.calculateCostOfDeliveries(
+            baseDeliveryCost: baseDeliveryCost,
+            packages: packagesWithOffers
+        )
+        displayOutput(costOfDeliveries: costOfDeliveries)
     }
 
-    private func displayOutput(invoices: [DeliveryCost]) {
-        var tabularData = invoices.map { deliveryInvoice in
+    private func displayOutput(costOfDeliveries: [DeliveryCost]) {
+        var tabularData = costOfDeliveries.map { deliveryInvoice in
             [
                 "\(deliveryInvoice.packageId)",
                 "\(deliveryInvoice.discount)",
@@ -43,6 +32,6 @@ struct CourierDeliveryPresenter {
         let headerData = ["PackageId", "Discount", "Total Cost"]
         tabularData.insert(headerData, at: 0)
         let table = try? Table(data: tabularData).table()
-        print(table ?? invoices)
+        CLI.shared.display(output: table ?? "\(costOfDeliveries)")
     }
 }

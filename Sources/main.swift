@@ -1,1 +1,1 @@
-AppRouter().start()
+AppRouter().showMainMenu()
