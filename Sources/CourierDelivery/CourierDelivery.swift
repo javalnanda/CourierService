@@ -1,6 +1,19 @@
-struct CourierDelivery {
-    let deliveryCostCalculator: DeliveryCostCalculator
-    let deliveryTimeCalculator: DeliveryTimeCalculator
+protocol CourierDeliveryService {
+    func calculateCostOfDeliveries(
+        baseDeliveryCost: Double,
+        packages: [PackageWithOffer]
+    ) -> [DeliveryCost]
+    func calcuateCostAndTimeOfDeliveries(
+        baseDeliveryCost: Double,
+        packages: [PackageWithOffer],
+        numberOfVehicles: Int,
+        vehicleSpec: VehicleSpecification
+    ) -> [DeliveryCostAndTime]
+}
+
+struct CourierDelivery: CourierDeliveryService {
+    let deliveryCostCalculator: DeliveryCostCalulatorService
+    let deliveryTimeCalculator: DeliveryTimeCalculatorService
 
     func calculateCostOfDeliveries(
         baseDeliveryCost: Double,

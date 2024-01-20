@@ -17,7 +17,7 @@ struct AppRouter {
         case .exit: exit(0)
         }
         // This prevents command line process from exiting and displays the menu again
-        // after finishing previous request
+        // after finishing previous request.
         showMainMenu()
     }
 }

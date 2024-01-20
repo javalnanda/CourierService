@@ -1,6 +1,12 @@
 import Table
 
-struct OffersPresenter {
+protocol OffersPresentable {
+    func displayOffers()
+    func addNewOffer()
+    func removeOffer()
+}
+
+struct OffersPresenter: OffersPresentable {
     let offerService: OfferService
     let cli = CLI.shared
 

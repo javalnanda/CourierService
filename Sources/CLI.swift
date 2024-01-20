@@ -20,16 +20,16 @@ enum ServiceOption: Int, CaseIterable {
     }
 }
 
-typealias PackageData = (id: String, weight: Double, distance: Double, offer: String)
-typealias VehicleInfo = (numberOfVehicles: Int, maxSpeed: Double, maxWeightCapacity: Double)
-typealias OfferData = (
-    offerCode: String,
-    discount: Double,
-    minWeight: Double,
-    maxWeight: Double,
-    minDistance: Double,
-    maxDistance: Double
-)
+struct PackageData { let id: String, weight: Double, distance: Double, offer: String }
+struct VehicleData { let numberOfVehicles: Int, maxSpeed: Double, maxWeightCapacity: Double }
+struct OfferData {
+    let offerCode: String
+    let discount: Double
+    let minWeight: Double
+    let maxWeight: Double
+    let minDistance: Double
+    let maxDistance: Double
+}
 
 struct CLI {
     static let shared = CLI()
@@ -64,12 +64,12 @@ struct CLI {
         return (baseDeliveryCost, packages)
     }
 
-    func getVehicleInfo() -> VehicleInfo {
+    func getVehicleInfo() -> VehicleData {
         print("\nPlease enter the details of vehicle for delivery:")
         let numberOfVehicles = Input.readInt(prompt: "Enter number of vehicles:")
         let maxSpeed = Input.readDouble(prompt: "Enter max speed of vehicles:")
         let maxWeight = Input.readDouble(prompt: "Enter max weight carrying capacity of vehicles:")
-        return VehicleInfo(numberOfVehicles: numberOfVehicles, maxSpeed: maxSpeed, maxWeightCapacity: maxWeight)
+        return VehicleData(numberOfVehicles: numberOfVehicles, maxSpeed: maxSpeed, maxWeightCapacity: maxWeight)
     }
 
     func getNewOfferData() -> OfferData {

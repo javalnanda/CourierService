@@ -1,7 +1,12 @@
 import Table
 
-struct CourierDeliveryPresenter {
-    let courierDelivery: CourierDelivery
+protocol CourierDeliveryPresentable {
+    func calculateCost()
+    func calculateTime()
+}
+
+struct CourierDeliveryPresenter: CourierDeliveryPresentable {
+    let courierDelivery: CourierDeliveryService
     let cli = CLI.shared
 
     func calculateCost() {

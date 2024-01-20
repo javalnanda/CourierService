@@ -1,4 +1,11 @@
-struct DeliveryCostCalculator {
+protocol DeliveryCostCalulatorService {
+    func calculateTotalEstimatedCost(
+        baseDeliveryCost: Double,
+        package: PackageWithOffer
+    ) -> DeliveryCost
+}
+
+struct DeliveryCostCalculator: DeliveryCostCalulatorService {
     let offerService: OfferService
 
     func calculateTotalEstimatedCost(

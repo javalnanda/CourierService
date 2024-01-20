@@ -1,6 +1,14 @@
 import Foundation
 
-struct DeliveryTimeCalculator {
+protocol DeliveryTimeCalculatorService {
+    func estimateDeliveryTime(
+        packages: [Package],
+        numberOfVehicles: Int,
+        vehicleSpecification: VehicleSpecification
+    ) -> [PackageDeliveryTime]
+}
+
+struct DeliveryTimeCalculator: DeliveryTimeCalculatorService {
     private let shipmentsGenerator = ShipmentsGenerator()
 
     func estimateDeliveryTime(
