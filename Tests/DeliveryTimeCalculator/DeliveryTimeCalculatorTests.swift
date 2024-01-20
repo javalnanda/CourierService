@@ -7,11 +7,11 @@ final class DeliveryTimeCalculatorTests: XCTestCase {
         let sut = DeliveryTimeCalculator()
 
         let packages = [
-            Package(id: "PKG1", weightInKg: 50.0, distanceToDestination: 30.0, offerCode: ""),
-            Package(id: "PKG2", weightInKg: 75.0, distanceToDestination: 125.0, offerCode: ""),
-            Package(id: "PKG3", weightInKg: 175.0, distanceToDestination: 100.0, offerCode: ""),
-            Package(id: "PKG4", weightInKg: 110.0, distanceToDestination: 60.0, offerCode: ""),
-            Package(id: "PKG5", weightInKg: 155.0, distanceToDestination: 95.0, offerCode: "")
+            Package(id: "PKG1", weightInKg: 50.0, distanceToDestination: 30.0),
+            Package(id: "PKG2", weightInKg: 75.0, distanceToDestination: 125.0),
+            Package(id: "PKG3", weightInKg: 175.0, distanceToDestination: 100.0),
+            Package(id: "PKG4", weightInKg: 110.0, distanceToDestination: 60.0),
+            Package(id: "PKG5", weightInKg: 155.0, distanceToDestination: 95.0)
         ]
         let numberOfVehicles = 2
         let vehicleSpec = VehicleSpecification(maxSpeed: 70.0, maxWeightCapacity: 200.0)

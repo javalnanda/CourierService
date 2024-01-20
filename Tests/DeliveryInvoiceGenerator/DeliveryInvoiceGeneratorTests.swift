@@ -8,8 +8,8 @@ final class DeliveryInvoiceGeneratorTests: XCTestCase {
 
         let baseDeliveryCost = 100.0
         let packages = [
-            Package(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "Invalid"),
-            Package(id: "PKG2", weightInKg: 15.0, distanceToDestination: 5.0, offerCode: "Invalid")
+            PackageWithOffer(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "Invalid"),
+            PackageWithOffer(id: "PKG2", weightInKg: 15.0, distanceToDestination: 5.0, offerCode: "Invalid")
         ]
         let generatedInvoices = sut.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
 
@@ -25,9 +25,9 @@ final class DeliveryInvoiceGeneratorTests: XCTestCase {
 
         let baseDeliveryCost = 100.0
         let packages = [
-            Package(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "OFR001"),
-            Package(id: "PKG2", weightInKg: 15.0, distanceToDestination: 5.0, offerCode: "OFR002"),
-            Package(id: "PKG3", weightInKg: 10.0, distanceToDestination: 100.0, offerCode: "OFR003")
+            PackageWithOffer(id: "PKG1", weightInKg: 5.0, distanceToDestination: 5.0, offerCode: "OFR001"),
+            PackageWithOffer(id: "PKG2", weightInKg: 15.0, distanceToDestination: 5.0, offerCode: "OFR002"),
+            PackageWithOffer(id: "PKG3", weightInKg: 10.0, distanceToDestination: 100.0, offerCode: "OFR003")
         ]
         let generatedInvoices = sut.generateInvoices(baseDeliveryCost: baseDeliveryCost, packages: packages)
 

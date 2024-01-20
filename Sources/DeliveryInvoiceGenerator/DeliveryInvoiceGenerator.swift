@@ -3,7 +3,7 @@ struct DeliveryInvoiceGenerator {
 
     func generateInvoices(
         baseDeliveryCost: Double,
-        packages: [Package]
+        packages: [PackageWithOffer]
     ) -> [DeliveryInvoice] {
         var invoices: [DeliveryInvoice] = []
         for package in packages {
