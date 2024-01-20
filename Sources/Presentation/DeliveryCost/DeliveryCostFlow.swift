@@ -5,6 +5,12 @@ struct DeliveryCostFlow {
     private let courierDelivery = CourierDeliveryFactory().build()
 
     func start() {
+        let (baseDeliveryCost, packages) = getInputsForCostCalculation()
+        let invoices = courierDelivery.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
+        displayOutput(invoices: invoices)
+    }
+
+    private func getInputsForCostCalculation() -> (baseDeliveryCost: Double, packages: [PackageWithOffer]) {
         let baseDeliveryCost = Input.readDouble(prompt: "Please enter the base delivery cost:")
         let noOfPackages = Input.readInt(prompt: "Please enter the number of packages to deliver:")
 
@@ -23,9 +29,7 @@ struct DeliveryCostFlow {
             )
             packages.append(package)
         }
-
-        let invoices = courierDelivery.calculateCostOfDeliveries(baseDeliveryCost: baseDeliveryCost, packages: packages)
-        displayOutput(invoices: invoices)
+        return (baseDeliveryCost, packages)
     }
 
     private func displayOutput(invoices: [DeliveryCost]) {
