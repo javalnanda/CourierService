@@ -137,5 +137,10 @@ Press ⌘ + U to run the tests
 - Working with `Double` results in some difference in calculation if we use floor/ceil/round hence a utility is used to truncate decimals to 2 places and store it as a string for final display
 
 ### Dependencies
+Only required dependencies are used. Dependencies for beautification(for e.g Figlet) are not used.
 - [SwiftCLI](https://github.com/jakeheis/SwiftCLI): For type-checked cli input prompts. Initially it was used for parsing sub-commands but later sub-commands were replaced with Question based menu to maintain command line session.
 - [Table](https://github.com/JanGorman/Table): For printing tabular output on command line
+
+### TODO
+- Validation is pending for a single package weight to not exceed vehicle's max capacity
+- Algorithm for shipment calculation is not validated in terms of performance
