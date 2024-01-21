@@ -4,9 +4,22 @@ struct AppRouter {
     let offersPresenter: OffersPresentable
     let cli: CLIService
 
-    func showMainMenu() {
+    func showMainMenu(displayWelcomeMsg: Bool = false) {
+        if displayWelcomeMsg {
+            displayWelcomeMessage()
+        }
         let input = cli.getUserChoice()
         processInput(serviceOpion: input)
+    }
+
+    private func displayWelcomeMessage() {
+        let welcomeMsg = """
+                        \n
+                        =====================================
+                        = Welcome to Kiki's Courier Service =
+                        =====================================
+                        """
+        cli.display(output: welcomeMsg)
     }
 
     private func processInput(serviceOpion: ServiceOption) {
