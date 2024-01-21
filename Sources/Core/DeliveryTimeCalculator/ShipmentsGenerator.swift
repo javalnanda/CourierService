@@ -1,9 +1,8 @@
 struct ShipmentsGenerator {
-    func generateShipments(
+    func getNextShipment(
         packages: [Package],
-        numberOfVehicles: Int,
         vehicleSpec: VehicleSpecification
-    ) -> [Shipment] {
+    ) -> Shipment {
         let maxCapacity = vehicleSpec.maxWeightCapacity
         var shipments: [Shipment] = []
         for i in 0..<packages.count {
@@ -15,13 +14,13 @@ struct ShipmentsGenerator {
                 let nextReferencePackage = packages[j]
                 let totalWeightWithCurrentCombination =
                 currentBestCombination.reduce(0) { $0 + $1.weightInKg } + nextReferencePackage.weightInKg
-                if totalWeightWithCurrentCombination < maxCapacity &&
+                if totalWeightWithCurrentCombination <= maxCapacity &&
                     totalWeightWithCurrentCombination > localMaxWeight {
                     localMaxWeight = totalWeightWithCurrentCombination
                     currentBestCombination.append(nextReferencePackage)
                 } else {
                     let weightOfPair = nextReferencePackage.weightInKg + currentReferencePackage.weightInKg
-                    if weightOfPair < maxCapacity && weightOfPair > localMaxWeight {
+                    if weightOfPair <= maxCapacity && weightOfPair > localMaxWeight {
                         localMaxWeight = weightOfPair
                         currentBestCombination = [currentReferencePackage, nextReferencePackage]
                     }
@@ -31,36 +30,8 @@ struct ShipmentsGenerator {
             let shipment = createShipment(from: currentBestCombination, maxSpeed: vehicleSpec.maxSpeed)
             shipments.append(shipment)
         }
-        let uniqueSortedShipments = removeDuplicatePackageFromLowerWeightedShipment(
-            shipments: shipments,
-            vehicleSpec: vehicleSpec
-        )
-        return uniqueSortedShipments
-    }
-
-    private func removeDuplicatePackageFromLowerWeightedShipment(
-        shipments: [Shipment],
-        vehicleSpec: VehicleSpecification
-    ) -> [Shipment] {
-        var packageSelected: [Package] = []
-        var uniqueShipments: [Shipment] = []
         let sortedShipments = sortByWeightAndDistance(shipments: shipments)
-        for shipment in sortedShipments {
-            var updatedPackages: [Package] = []
-            for package in shipment.packages where !packageSelected.contains(package) {
-                updatedPackages.append(package)
-                packageSelected.append(package)
-            }
-            if !updatedPackages.isEmpty {
-                let updatedShipment = createShipment(
-                    from: updatedPackages,
-                    maxSpeed: vehicleSpec.maxSpeed
-                )
-                uniqueShipments.append(updatedShipment)
-            }
-        }
-        let uniqueSortedShipments = sortByWeightAndDistance(shipments: uniqueShipments)
-        return uniqueSortedShipments
+        return sortedShipments[0]
     }
 
     private func sortByWeightAndDistance(shipments: [Shipment]) -> [Shipment] {

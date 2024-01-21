@@ -16,11 +16,6 @@ struct DeliveryTimeCalculator: DeliveryTimeCalculatorService {
         numberOfVehicles: Int,
         vehicleSpecification: VehicleSpecification
     ) -> [PackageDeliveryTime] {
-        let totalShipments = shipmentsGenerator.generateShipments(
-            packages: packages,
-            numberOfVehicles: numberOfVehicles,
-            vehicleSpec: vehicleSpecification
-        )
         let totalVehicles: [Vehicle] = Array(
             repeating: Vehicle(
                 spec: vehicleSpecification,
@@ -28,21 +23,29 @@ struct DeliveryTimeCalculator: DeliveryTimeCalculatorService {
             ),
             count: numberOfVehicles
         )
-        let packagesEstimatedDeliveryTime: [PackageDeliveryTime] = estimateTimeForShipments(
-            shipments: totalShipments,
+        let packagesEstimatedDeliveryTime: [PackageDeliveryTime] = estimateTimeForPackages(
+            packages: packages,
             vehicles: totalVehicles
         )
         return packagesEstimatedDeliveryTime
     }
 
-    private func estimateTimeForShipments(shipments: [Shipment], vehicles: [Vehicle]) -> [PackageDeliveryTime] {
+    private func estimateTimeForPackages(packages: [Package], vehicles: [Vehicle]) -> [PackageDeliveryTime] {
         var availableVehicles = vehicles
-        var remainingShipments = shipments
+        var remainingPackages = packages
         var packagesEstimatedDeliveryTime: [PackageDeliveryTime] = []
-        while !remainingShipments.isEmpty {
+        while !remainingPackages.isEmpty {
             if !availableVehicles.isEmpty {
+                let nextShipment = shipmentsGenerator.getNextShipment(
+                    packages: remainingPackages,
+                    vehicleSpec: VehicleSpecification(
+                        maxSpeed: vehicles[0].spec.maxSpeed,
+                        maxWeightCapacity: vehicles[0].spec.maxWeightCapacity
+                    )
+                )
+                remainingPackages = remainingPackages.filter { !nextShipment.packages.contains($0) }
                 let (packagesDeliveryTime, updatedVehicle) = deliverShipmentAndUpdateVehicle(
-                    shipment: remainingShipments.removeFirst(),
+                    shipment: nextShipment,
                     vehicle: availableVehicles.removeFirst()
                 )
                 packagesEstimatedDeliveryTime.append(contentsOf: packagesDeliveryTime)
